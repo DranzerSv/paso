@@ -9,21 +9,36 @@
         background-color: aqua;
       }
       .step-button {
+        transition-duration: 0.5s;
         background-color: bisque;
+        width: 150px;
+        height: 70px;
+        border-radius: 20%;
       }
       .selected {
+        width: 200px;
         background-color: brown;
       }
     </style>
   </head>
   <body>
-    <button class="step-button selected">paso1</button>
-    <button class="step-button">paso2</button>
-    <button class="step-button">paso3</button>
-    <button class="step-button">paso4</button>
+    <div class="step-buttons-container">
+      <button class="step-button selected">Paso 1</button>
+      <button class="step-button">2</button>
+      <button class="step-button">3</button>
+      <button class="step-button">4</button>
+    </div>
   </body>
   <script>
     const step_buttons = document.querySelectorAll(".step-button");
+
+    const restorePreviousButton = () => {
+      const previouslySelectedButton = document.querySelector(".selected");
+      const ultimoCaracter = previouslySelectedButton.textContent.charAt(
+        previouslySelectedButton.textContent.length - 1
+      );
+      previouslySelectedButton.textContent = ultimoCaracter;
+    };
 
     const removeClassFromUnselected = () => {
       step_buttons.forEach(function (boton) {
@@ -31,10 +46,17 @@
       });
     };
 
-    // Agregar un evento de clic a cada botón
+    const addWordToButton = (button, word) => {
+      const number = button.textContent;
+      button.textContent = word + " " + number;
+    };
+
     step_buttons.forEach((step_button) => {
       step_button.addEventListener("click", function () {
+        restorePreviousButton();
+        addWordToButton(this, "Paso");
         removeClassFromUnselected();
+
         this.classList.toggle("selected");
       });
     });
