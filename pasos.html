@@ -19,6 +19,16 @@
         width: 200px;
         background-color: brown;
       }
+
+      .instruction {
+        width: 500px;
+        height: 450px;
+        background-color: coral;
+        display: none;
+      }
+      .show-instruction {
+        display: block;
+      }
     </style>
   </head>
   <body>
@@ -28,16 +38,27 @@
       <button class="step-button">3</button>
       <button class="step-button">4</button>
     </div>
+
+    <div class="instruction show-instruction" id="Instruction 1">
+      Instrucciones paso 1
+    </div>
+    <div class="instruction" id="Instruction 2">Instrucciones paso 2</div>
+    <div class="instruction" id="Instruction 3">Instrucciones paso 3</div>
+    <div class="instruction" id="Instruction 4">Instrucciones paso 4</div>
   </body>
   <script>
     const step_buttons = document.querySelectorAll(".step-button");
+    const step_instructions = document.querySelectorAll(".instruction");
+
+    // const getStepSelected = (element) => {
+    //   return element.charAt(element.length - 1);
+    // };
 
     const restorePreviousButton = () => {
       const previouslySelectedButton = document.querySelector(".selected");
-      const ultimoCaracter = previouslySelectedButton.textContent.charAt(
-        previouslySelectedButton.textContent.length - 1
-      );
-      previouslySelectedButton.textContent = ultimoCaracter;
+      const buttonText = previouslySelectedButton.textContent;
+      const lastCharacter = buttonText.charAt(buttonText.length - 1);
+      previouslySelectedButton.textContent = lastCharacter;
     };
 
     const removeClassFromUnselected = () => {
@@ -51,8 +72,26 @@
       button.textContent = word + " " + number;
     };
 
+    const showInstruction = (element) => {
+      const lastCharacter = element.textContent.charAt(
+        element.textContent.length - 1
+      );
+      console.log(lastCharacter);
+
+      const instruction = document.getElementById(
+        "Instruction " + lastCharacter
+      );
+
+      step_instructions.forEach((step_instruction) => {
+        step_instruction.classList.remove("show-instruction");
+      });
+
+      instruction.classList.toggle("show-instruction");
+    };
+
     step_buttons.forEach((step_button) => {
       step_button.addEventListener("click", function () {
+        showInstruction(this);
         restorePreviousButton();
         addWordToButton(this, "Paso");
         removeClassFromUnselected();
