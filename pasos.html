@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pasos Siman</title>
+    <style>
+      body {
+        background-color: aqua;
+      }
+      .step-button {
+        background-color: bisque;
+      }
+      .selected {
+        background-color: brown;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="step-button selected">paso1</button>
+    <button class="step-button">paso2</button>
+    <button class="step-button">paso3</button>
+    <button class="step-button">paso4</button>
+  </body>
+  <script>
+    const step_buttons = document.querySelectorAll(".step-button");
+
+    const removeClassFromUnselected = () => {
+      step_buttons.forEach(function (boton) {
+        boton.classList.remove("selected");
+      });
+    };
+
+    // Agregar un evento de clic a cada botón
+    step_buttons.forEach((step_button) => {
+      step_button.addEventListener("click", function () {
+        removeClassFromUnselected();
+        this.classList.toggle("selected");
+      });
+    });
+  </script>
+</html>
