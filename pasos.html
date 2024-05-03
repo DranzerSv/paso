@@ -6,18 +6,69 @@
     <title>Pasos Siman</title>
     <style>
       body {
-        background-color: aqua;
+        background-color: #ffffff;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
       }
-      .step-button {
+      .step_buttons {
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        gap: 16px;
+        width: 240px;
+        padding-left: 4px;
+        padding-right: 4px;
+        height: 44px;
+        border: #e6e6e6 solid 2px;
+        border-top-left-radius: 50px;
+        border-top-right-radius: 50px;
+        border-bottom-left-radius: 50px;
+        border-bottom-right-radius: 50px;
+      }
+      .step_button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        outline: none;
         transition-duration: 0.5s;
-        background-color: bisque;
-        width: 150px;
-        height: 70px;
-        border-radius: 20%;
+        background-color: #ffffff;
+        width: 36.45px;
+        height: 35.52px;
+        align-items: center;
+        border-radius: 32.87px 32.87px 32.87px 32.87px;
+        opacity: 0px;
+        border: 1px solid #e6e6e6;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15.9px;
+        line-height: 20.18px;
+        letter-spacing: 0.0025em;
+        text-align: left;
+        font-weight: bold;
+        color: #a83338;
       }
+
       .selected {
-        width: 200px;
-        background-color: brown;
+        color: white;
+        width: 85px;
+        height: 35.52px;
+
+        gap: 4.24px;
+        border-radius: 26.51px 26.51px 26.51px 26.51px;
+        opacity: 0px;
+        font-size: 15.9px;
+
+        background-color: #a83338;
+
+        font-family: Arial, Helvetica, sans-serif;
+
+        line-height: 25.38px;
+        letter-spacing: 0.15%;
+        font-weight: 475px;
       }
 
       .instruction {
@@ -25,34 +76,38 @@
         height: 450px;
         background-color: coral;
         display: none;
+        gap: 16px;
       }
       .show-instruction {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
       }
     </style>
   </head>
   <body>
-    <div class="step-buttons-container">
-      <button class="step-button selected">Paso 1</button>
-      <button class="step-button">2</button>
-      <button class="step-button">3</button>
-      <button class="step-button">4</button>
+    <div class="step_buttons">
+      <button class="step_button selected">Paso 1</button>
+      <button class="step_button">2</button>
+      <button class="step_button">3</button>
+      <button class="step_button">4</button>
     </div>
 
     <div class="instruction show-instruction" id="Instruction 1">
-      Instrucciones paso 1
+      <h3>Elije tus productos</h3>
+      <p>
+        Navega por nuestro sitio web para encontrar los productos que deseas.
+        Puedes buscar por categoría, marca o nombre.
+      </p>
+      <p>Clickea en comprar o agrégalos al carrito.</p>
     </div>
-    <div class="instruction" id="Instruction 2">Instrucciones paso 2</div>
+    <div class="instruction" id="Instruction 2"></div>
     <div class="instruction" id="Instruction 3">Instrucciones paso 3</div>
     <div class="instruction" id="Instruction 4">Instrucciones paso 4</div>
   </body>
   <script>
-    const step_buttons = document.querySelectorAll(".step-button");
+    const step_buttons = document.querySelectorAll(".step_button");
     const step_instructions = document.querySelectorAll(".instruction");
-
-    // const getStepSelected = (element) => {
-    //   return element.charAt(element.length - 1);
-    // };
 
     const restorePreviousButton = () => {
       const previouslySelectedButton = document.querySelector(".selected");
@@ -71,20 +126,20 @@
       const number = button.textContent;
       button.textContent = word + " " + number;
     };
-
+    const hideAllInstructions = () => {
+      step_instructions.forEach((step_instruction) => {
+        step_instruction.classList.remove("show-instruction");
+      });
+    };
     const showInstruction = (element) => {
       const lastCharacter = element.textContent.charAt(
         element.textContent.length - 1
       );
-      console.log(lastCharacter);
 
       const instruction = document.getElementById(
         "Instruction " + lastCharacter
       );
-
-      step_instructions.forEach((step_instruction) => {
-        step_instruction.classList.remove("show-instruction");
-      });
+      hideAllInstructions();
 
       instruction.classList.toggle("show-instruction");
     };
@@ -92,11 +147,14 @@
     step_buttons.forEach((step_button) => {
       step_button.addEventListener("click", function () {
         showInstruction(this);
+        //quita la clase selected de cualquiera que lo tenga, luego lo pone en la que corresponde unicamente
         restorePreviousButton();
-        addWordToButton(this, "Paso");
         removeClassFromUnselected();
+        //retraso necesario para evitar un bug visual
 
         this.classList.toggle("selected");
+        setTimeout(() => {}, 100);
+        //addWordToButton(this, "Paso");
       });
     });
   </script>
